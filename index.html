@@ -5,13 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Longleaf Lights — Christmas 2026</title>
 <style>
-
 :root{color-scheme:dark;--gold:#f2d48a;--cream:#fff6dc;--red:#b32230}
 *{box-sizing:border-box}
 html,body{margin:0;background:#05261d;font-family:Georgia,'Times New Roman',serif;color:var(--cream)}
-.scene{position:relative;isolation:isolate;min-height:420px;overflow:hidden;border:3px solid #d9b66b;border-radius:19px;background:#06271d url("christmas-background.jpg") center center/100% 100% no-repeat;box-shadow:inset 0 0 0 3px #241409, inset 0 0 0 5px #eac778;text-align:center;padding:44px 15px 25px}
-.scene:before{content:"";position:absolute;inset:6px;border:1px solid #a17b36;border-radius:12px;pointer-events:none}
-.content{position:relative;z-index:2;max-width:720px;margin:auto;text-shadow:0 2px 9px #00150f,0 0 16px #00150f}
+.scene{position:relative;isolation:isolate;min-height:420px;overflow:hidden;border:3px solid #d9b66b;border-radius:19px;background:#06271d url("christmas-background.jpg") center center/100% 100% no-repeat;box-shadow:inset 0 0 0 3px #241409,inset 0 0 0 5px #eac778;text-align:center;padding:44px 15px 25px}
+.scene:before{content:"";position:absolute;inset:6px;border:1px solid #a17b36;border-radius:12px;pointer-events:none;z-index:4}
+.content{position:relative;z-index:3;max-width:720px;margin:auto;text-shadow:0 2px 9px #00150f,0 0 16px #00150f}
 .eyebrow{font:700 clamp(13px,2.1vw,19px) Georgia,serif;letter-spacing:.15em;color:#f6dc98;text-transform:uppercase;margin:0 0 1px}
 .presents{font:600 10px Arial,sans-serif;letter-spacing:.43em;color:#f9e9bb;margin:2px 0 0}
 .heading{font:italic 700 clamp(38px,7.8vw,79px) Georgia,serif;line-height:1.08;color:#ffe5a2;margin:8px 0 15px;letter-spacing:-.045em;text-shadow:2px 3px 0 #8b1824,0 0 18px #9c311d,0 4px 12px #00190d}
@@ -21,65 +20,94 @@ html,body{margin:0;background:#05261d;font-family:Georgia,'Times New Roman',seri
 .num{display:block;font:700 clamp(30px,6.7vw,61px) Georgia,serif;line-height:1.15;color:#ffe9ac;font-variant-numeric:tabular-nums;text-shadow:0 2px 3px #000}
 .lbl{font:700 clamp(9px,1.5vw,13px) Arial,sans-serif;letter-spacing:.07em;color:#f9e8bc}
 .note{margin:17px 0 0;font:italic clamp(13px,2.5vw,20px) Georgia,serif;color:#fff1d3}
-.snow{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.snow{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2}
 .flake{position:absolute;top:-20px;border-radius:50%;background:#fff;box-shadow:0 0 6px #fff8;opacity:.65;animation:fall linear infinite}
 @keyframes fall{to{transform:translate3d(28px,480px,0)}}
 .welcome{display:none;padding:25px 5px 20px;font-size:clamp(19px,4.2vw,34px);color:#ffedb8;font-weight:bold}
 .welcome small{display:block;margin-top:15px;font-size:clamp(12px,2.5vw,18px);font-weight:normal}
-.santa-flight{position:absolute;z-index:1;top:7px;left:-340px;width:320px;height:auto;pointer-events:none;opacity:0;filter:drop-shadow(0 2px 4px #00150b);animation:santaFlight 38s linear infinite;will-change:transform}
+/* Santa flies between the background and all countdown text/panels. */
+.santa-flight{position:absolute;z-index:1;top:0;left:0;width:320px;height:auto;pointer-events:none;opacity:0;filter:drop-shadow(0 2px 4px #00150b);will-change:transform,opacity}
 .santa-flight img{display:block;width:100%;height:auto;animation:santaFloat 2.6s ease-in-out infinite alternate}
 @keyframes santaFloat{from{transform:translateY(0)}to{transform:translateY(-4px)}}
-@keyframes santaFlight{0%,6%{transform:translateX(0);opacity:0}10%{opacity:.96}88%{opacity:.96}96%,100%{transform:translateX(calc(100vw + 430px));opacity:0}}
-@media(max-width:520px){.scene{min-height:385px;padding:62px 10px 18px;background-size:auto 100%}
-.heading{margin:12px 0 18px}
-.timer{margin-top:18px}
-.unit{padding:12px 1px}
-.eyebrow{letter-spacing:.07em}
-.note{line-height:1.4}
-.santa-flight{top:10px;width:215px;left:-235px}}
+@media(max-width:520px){.scene{min-height:385px;padding:62px 10px 18px;background-size:auto 100%}.heading{margin:12px 0 18px}.timer{margin-top:18px}.unit{padding:12px 1px}.eyebrow{letter-spacing:.07em}.note{line-height:1.4}.santa-flight{width:215px}}
 @media(prefers-reduced-motion:reduce){.flake,.santa-flight{display:none}}
-.heading {
-    position: relative;
-    z-index: 2;
-}
 </style>
 </head>
 <body>
-<main class="scene">
-<div class="snow" id="snow" aria-hidden="true">
-</div>
-<div class="santa-flight" aria-hidden="true"><img src="santa-reindeer.png" alt=""></div>
-<div class="content">
-<p class="eyebrow">Longleaf Lights</p>
-<p class="presents">PRESENTS</p>
-<h1 class="heading">Christmas 2026</h1>
-<div id="before">
-<div class="ribbon">Opening Friday, November 27 · 5:00 PM Central</div>
-<div class="timer" role="timer" aria-label="Countdown to opening night">
-<div class="unit">
-<span class="num" id="days">--</span>
-<span class="lbl">DAYS</span>
-</div>
-<div class="unit">
-<span class="num" id="hours">--</span>
-<span class="lbl">HOURS</span>
-</div>
-<div class="unit">
-<span class="num" id="minutes">--</span>
-<span class="lbl">MINUTES</span>
-</div>
-<div class="unit">
-<span class="num" id="seconds">--</span>
-<span class="lbl">SECONDS</span>
-</div>
-</div>
-<p class="note">Get ready for a magical night of music and lights!</p>
-</div>
-<div class="welcome" id="welcome">Merry Christmas! The 2026 season has begun!<small>Enjoy the lights, and tune your radio to 107.9 FM.</small>
-</div>
-</div>
+<main class="scene" id="scene">
+  <div class="snow" id="snow" aria-hidden="true"></div>
+  <div class="santa-flight" id="santa" aria-hidden="true"><img src="santa-reindeer.png" alt=""></div>
+  <div class="content">
+    <p class="eyebrow">Longleaf Lights</p>
+    <p class="presents">PRESENTS</p>
+    <h1 class="heading">Christmas 2026</h1>
+    <div id="before">
+      <div class="ribbon">Opening Friday, November 27 · 5:00 PM Central</div>
+      <div class="timer" role="timer" aria-label="Countdown to opening night">
+        <div class="unit"><span class="num" id="days">--</span><span class="lbl">DAYS</span></div>
+        <div class="unit"><span class="num" id="hours">--</span><span class="lbl">HOURS</span></div>
+        <div class="unit"><span class="num" id="minutes">--</span><span class="lbl">MINUTES</span></div>
+        <div class="unit"><span class="num" id="seconds">--</span><span class="lbl">SECONDS</span></div>
+      </div>
+      <p class="note">Get ready for a magical night of music and lights!</p>
+    </div>
+    <div class="welcome" id="welcome">Merry Christmas! The 2026 season has begun!<small>Enjoy the lights, and tune your radio to 107.9 FM.</small></div>
+  </div>
 </main>
-<script>(function(){const target=Date.parse('2026-11-27T17:00:00-06:00'),ids=['days','hours','minutes','seconds'];function tick(){let diff=Math.max(0,target-Date.now());if(diff===0){document.getElementById('before').style.display='none';document.getElementById('welcome').style.display='block';return}const values=[Math.floor(diff/86400000),Math.floor(diff/3600000)%24,Math.floor(diff/60000)%60,Math.floor(diff/1000)%60];ids.forEach((id,i)=>document.getElementById(id).textContent=String(values[i]).padStart(2,'0'))}tick();setInterval(tick,1000);
-const snow=document.getElementById('snow');for(let i=0;i<22;i++){let f=document.createElement('i');f.className='flake';let size=2+i%4;f.style.cssText='left:'+(i*47%100)+'%;width:'+size+'px;height:'+size+'px;animation-duration:'+(9+i%8*2)+'s;animation-delay:'+(-i*1.8)+'s';snow.appendChild(f)}})();</script>
+<script>
+(function(){
+  const target=Date.parse('2026-11-27T17:00:00-06:00');
+  const ids=['days','hours','minutes','seconds'];
+  function tick(){
+    const diff=Math.max(0,target-Date.now());
+    if(diff===0){document.getElementById('before').style.display='none';document.getElementById('welcome').style.display='block';return;}
+    const values=[Math.floor(diff/86400000),Math.floor(diff/3600000)%24,Math.floor(diff/60000)%60,Math.floor(diff/1000)%60];
+    ids.forEach((id,i)=>document.getElementById(id).textContent=String(values[i]).padStart(2,'0'));
+  }
+  tick();setInterval(tick,1000);
+  const snow=document.getElementById('snow');
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    for(let i=0;i<22;i++){
+      const f=document.createElement('i');f.className='flake';const size=2+i%4;
+      f.style.cssText='left:'+(i*47%100)+'%;width:'+size+'px;height:'+size+'px;animation-duration:'+(9+i%8*2)+'s;animation-delay:'+(-i*1.8)+'s';
+      snow.appendChild(f);
+    }
+    const scene=document.getElementById('scene');
+    const santa=document.getElementById('santa');
+    // Normalized vertical tracks as fractions of scene height; all four remain behind foreground content.
+    const paths=[
+      [0.06,0.07,0.07,0.06],  // Classic high flyby
+      [0.46,0.39,0.22,0.10],  // Gradual climb
+      [0.08,0.17,0.31,0.46],  // Gentle descent
+      [0.29,0.12,0.37,0.20]   // Rolling flight
+    ];
+    let previous=-1;
+    function nextFlight(){
+      if(!santa.isConnected)return;
+      let choice=Math.floor(Math.random()*(previous===-1?paths.length:paths.length-1));
+      if(choice>=previous && previous!==-1)choice++;
+      previous=choice;
+      const p=paths[choice];
+      const width=scene.clientWidth;
+      const height=scene.clientHeight;
+      const santaWidth=santa.getBoundingClientRect().width;
+      const start=-santaWidth-25;
+      const travel=width+santaWidth+50;
+      const duration=14000+Math.floor(Math.random()*4500);
+      const frames=p.map((fraction,i)=>({
+        offset:i/3,
+        transform:'translate('+ (start+travel*i/3)+'px,'+Math.round(fraction*height)+'px)',
+        opacity:(i===0||i===3)?0:0.95
+      }));
+      // Add intermediate points so Santa fades in/out while maintaining a smooth flight.
+      frames.splice(1,0,{offset:0.07,transform:'translate('+(start+travel*.07)+'px,'+Math.round((p[0]+(p[1]-p[0])*.21)*height)+'px)',opacity:0.95});
+      frames.splice(frames.length-1,0,{offset:0.93,transform:'translate('+(start+travel*.93)+'px,'+Math.round((p[2]+(p[3]-p[2])*.79)*height)+'px)',opacity:0.95});
+      const animation=santa.animate(frames,{duration,easing:'linear',fill:'none'});
+      animation.onfinish=()=>setTimeout(nextFlight,2500+Math.random()*3500);
+    }
+    setTimeout(nextFlight,1400);
+  }
+})();
+</script>
 </body>
 </html>
