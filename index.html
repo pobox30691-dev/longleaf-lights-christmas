@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Longleaf Lights — Christmas 2026</title>
+<!-- V7: randomized bidirectional Santa flights -->
 <style>
 :root{color-scheme:dark;--gold:#f2d48a;--cream:#fff6dc;--red:#b32230}
 *{box-sizing:border-box}
@@ -27,6 +28,7 @@ html,body{margin:0;background:#05261d;font-family:Georgia,'Times New Roman',seri
 .welcome small{display:block;margin-top:15px;font-size:clamp(12px,2.5vw,18px);font-weight:normal}
 /* Santa flies between the background and all countdown text/panels. */
 .santa-flight{position:absolute;z-index:1;top:0;left:0;width:320px;height:auto;pointer-events:none;opacity:0;filter:drop-shadow(0 2px 4px #00150b);will-change:transform,opacity}
+.santa-art{width:100%;transform-origin:center center}
 .santa-flight img{display:block;width:100%;height:auto;animation:santaFloat 2.6s ease-in-out infinite alternate}
 @keyframes santaFloat{from{transform:translateY(0)}to{transform:translateY(-4px)}}
 @media(max-width:520px){.scene{min-height:385px;padding:62px 10px 18px;background-size:auto 100%}.heading{margin:12px 0 18px}.timer{margin-top:18px}.unit{padding:12px 1px}.eyebrow{letter-spacing:.07em}.note{line-height:1.4}.santa-flight{width:215px}}
@@ -36,7 +38,7 @@ html,body{margin:0;background:#05261d;font-family:Georgia,'Times New Roman',seri
 <body>
 <main class="scene" id="scene">
   <div class="snow" id="snow" aria-hidden="true"></div>
-  <div class="santa-flight" id="santa" aria-hidden="true"><img src="santa-reindeer.png" alt=""></div>
+  <div class="santa-flight" id="santa" aria-hidden="true"><div class="santa-art" id="santa-art"><img src="santa-reindeer.png" alt=""></div></div>
   <div class="content">
     <p class="eyebrow">Longleaf Lights</p>
     <p class="presents">PRESENTS</p>
@@ -74,6 +76,7 @@ html,body{margin:0;background:#05261d;font-family:Georgia,'Times New Roman',seri
     }
     const scene=document.getElementById('scene');
     const santa=document.getElementById('santa');
+    const santaArt=document.getElementById('santa-art');
     // Normalized vertical tracks as fractions of scene height; all four remain behind foreground content.
     const paths=[
       [0.06,0.07,0.07,0.06],  // Classic high flyby
@@ -88,20 +91,26 @@ html,body{margin:0;background:#05261d;font-family:Georgia,'Times New Roman',seri
       if(choice>=previous && previous!==-1)choice++;
       previous=choice;
       const p=paths[choice];
+      // Randomly fly either direction. Mirror only the artwork, not the flight animation.
+      const rightToLeft=Math.random()<0.5;
+      santaArt.style.transform=rightToLeft?'scaleX(-1)':'scaleX(1)';
       const width=scene.clientWidth;
       const height=scene.clientHeight;
       const santaWidth=santa.getBoundingClientRect().width;
-      const start=-santaWidth-25;
-      const travel=width+santaWidth+50;
+      const leftEdge=-santaWidth-25;
+      const rightEdge=width+25;
+      const start=rightToLeft?rightEdge:leftEdge;
+      const travel=rightToLeft?(leftEdge-rightEdge):(rightEdge-leftEdge);
       const duration=14000+Math.floor(Math.random()*4500);
-      const frames=p.map((fraction,i)=>({
+      const vertical=rightToLeft?[...p].reverse():p;
+      const frames=vertical.map((fraction,i)=>({
         offset:i/3,
         transform:'translate('+ (start+travel*i/3)+'px,'+Math.round(fraction*height)+'px)',
         opacity:(i===0||i===3)?0:0.95
       }));
       // Add intermediate points so Santa fades in/out while maintaining a smooth flight.
-      frames.splice(1,0,{offset:0.07,transform:'translate('+(start+travel*.07)+'px,'+Math.round((p[0]+(p[1]-p[0])*.21)*height)+'px)',opacity:0.95});
-      frames.splice(frames.length-1,0,{offset:0.93,transform:'translate('+(start+travel*.93)+'px,'+Math.round((p[2]+(p[3]-p[2])*.79)*height)+'px)',opacity:0.95});
+      frames.splice(1,0,{offset:0.07,transform:'translate('+(start+travel*.07)+'px,'+Math.round((vertical[0]+(vertical[1]-vertical[0])*.21)*height)+'px)',opacity:0.95});
+      frames.splice(frames.length-1,0,{offset:0.93,transform:'translate('+(start+travel*.93)+'px,'+Math.round((vertical[2]+(vertical[3]-vertical[2])*.79)*height)+'px)',opacity:0.95});
       const animation=santa.animate(frames,{duration,easing:'linear',fill:'none'});
       animation.onfinish=()=>setTimeout(nextFlight,2500+Math.random()*3500);
     }
