@@ -26,19 +26,18 @@ html,body{margin:0;background:#05261d;font-family:Georgia,'Times New Roman',seri
 @keyframes fall{to{transform:translate3d(28px,480px,0)}}
 .welcome{display:none;padding:25px 5px 20px;font-size:clamp(19px,4.2vw,34px);color:#ffedb8;font-weight:bold}
 .welcome small{display:block;margin-top:15px;font-size:clamp(12px,2.5vw,18px);font-weight:normal}
-.santa{position:absolute;z-index:2;top:25px;left:-310px;width:290px;height:90px;opacity:.92;animation:flight 32s linear infinite;filter:drop-shadow(0 0 4px #f2d58d88);pointer-events:none}
-.santa .deer{animation:deerBob .85s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
-.santa .deer:nth-of-type(2){animation-delay:-.4s}
-@keyframes deerBob{to{transform:translateY(-3px) rotate(-2deg)}}
-@keyframes flight{0%,5%{transform:translateX(0) translateY(6px);opacity:0}9%{opacity:.92}84%{opacity:.92}98%,100%{transform:translateX(calc(100vw + 360px)) translateY(-10px);opacity:0}}
+.santa-flight{position:absolute;z-index:3;top:7px;left:-340px;width:320px;height:auto;pointer-events:none;opacity:0;filter:drop-shadow(0 2px 4px #00150b);animation:santaFlight 38s linear infinite;will-change:transform}
+.santa-flight img{display:block;width:100%;height:auto;animation:santaFloat 2.6s ease-in-out infinite alternate}
+@keyframes santaFloat{from{transform:translateY(0)}to{transform:translateY(-4px)}}
+@keyframes santaFlight{0%,6%{transform:translateX(0);opacity:0}10%{opacity:.96}88%{opacity:.96}96%,100%{transform:translateX(calc(100vw + 430px));opacity:0}}
 @media(max-width:520px){.scene{min-height:385px;padding:62px 10px 18px;background-size:auto 100%}
 .heading{margin:12px 0 18px}
 .timer{margin-top:18px}
 .unit{padding:12px 1px}
 .eyebrow{letter-spacing:.07em}
 .note{line-height:1.4}
-.santa{top:39px;width:210px;height:66px;left:-230px}}
-@media(prefers-reduced-motion:reduce){.flake,.santa{display:none}}
+.santa-flight{top:10px;width:215px;left:-235px}}
+@media(prefers-reduced-motion:reduce){.flake,.santa-flight{display:none}}
 
 </style>
 </head>
@@ -46,41 +45,7 @@ html,body{margin:0;background:#05261d;font-family:Georgia,'Times New Roman',seri
 <main class="scene">
 <div class="snow" id="snow" aria-hidden="true">
 </div>
-<svg class="santa" aria-hidden="true" viewBox="0 0 380 110" xmlns="http://www.w3.org/2000/svg">
-<!-- The sleigh and deer face right, matching the flight direction. -->
-<g fill="#091810" stroke="#e8ca82" stroke-width=".65" stroke-linejoin="round">
-  <!-- Santa's sleigh, runner and presents -->
-  <path d="M18 63 Q35 76 102 70 L121 53 L121 77 Q104 90 46 86 Q27 82 18 63Z"/>
-  <path d="M15 88 Q36 102 100 92 Q115 89 121 80" fill="none" stroke="#e8ca82" stroke-width="3" stroke-linecap="round"/>
-  <path d="M26 88 L32 81 M92 91 L94 83" stroke-width="2"/>
-  <rect x="29" y="40" width="24" height="23" rx="2" fill="#701b21"/>
-  <path d="M41 40V63 M29 50H53" stroke="#d8ad55" stroke-width="2"/>
-  <path d="M50 46 Q65 24 76 47 L86 67 L54 68Z" fill="#811d25"/>
-  <circle cx="76" cy="33" r="10" fill="#f3d6b6" stroke="none"/>
-  <path d="M66 30 Q65 14 80 16 L88 30Z" fill="#ad1d29"/>
-  <circle cx="88" cy="30" r="3" fill="#fff2d4" stroke="none"/>
-  <path d="M66 35 Q75 50 85 36 Q82 53 72 47Z" fill="#fff0dc" stroke="none"/>
-  <path d="M82 53 L98 63" stroke="#fff0dc" stroke-width="5" stroke-linecap="round"/>
-  <!-- Reins connecting Santa to the lead deer -->
-  <path d="M97 61 Q175 34 259 53 M97 63 Q185 73 265 58" fill="none" stroke="#d5b77b" stroke-width="1.3"/>
-</g>
-<!-- Two recognizable galloping reindeer -->
-<g class="deer" transform="translate(168 27)" fill="#091810" stroke="#d4b47a" stroke-width=".8" stroke-linejoin="round">
-  <path d="M4 36 Q15 24 37 27 L52 32 L63 19 L69 21 L62 41 L49 44 L36 41 L19 43 L8 51Z"/>
-  <path d="M59 19 L65 8 L69 15 L77 12 L75 23 L67 28Z"/>
-  <path d="M66 10 L62 0 M66 10 L70 1 M67 13 L76 5 M65 12 L58 7" fill="none" stroke-width="2" stroke-linecap="round"/>
-  <path d="M18 41 L2 64 L-3 62 L9 39 M39 41 L57 59 L53 64 L29 46" stroke-width="4" stroke-linecap="round"/>
-  <path d="M8 32 L-3 25" fill="none" stroke-width="3"/>
-</g>
-<g class="deer" transform="translate(278 15) scale(.94)" fill="#091810" stroke="#d4b47a" stroke-width=".8" stroke-linejoin="round">
-  <path d="M4 36 Q15 24 37 27 L52 32 L63 19 L69 21 L62 41 L49 44 L36 41 L19 43 L8 51Z"/>
-  <path d="M59 19 L65 8 L69 15 L77 12 L75 23 L67 28Z"/>
-  <path d="M66 10 L62 0 M66 10 L70 1 M67 13 L76 5 M65 12 L58 7" fill="none" stroke-width="2" stroke-linecap="round"/>
-  <path d="M18 41 L2 64 L-3 62 L9 39 M39 41 L57 59 L53 64 L29 46" stroke-width="4" stroke-linecap="round"/>
-  <path d="M8 32 L-3 25" fill="none" stroke-width="3"/>
-</g>
-<path d="M237 59 Q267 48 291 48" fill="none" stroke="#d5b77b" stroke-width="1.3"/>
-</svg>
+<div class="santa-flight" aria-hidden="true"><img src="santa-reindeer.png" alt=""></div>
 <div class="content">
 <p class="eyebrow">Longleaf Lights</p>
 <p class="presents">PRESENTS</p>
