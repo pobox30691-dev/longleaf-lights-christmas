@@ -26,7 +26,7 @@ html,body{margin:0;background:#05261d;font-family:Georgia,'Times New Roman',seri
 @keyframes fall{to{transform:translate3d(28px,480px,0)}}
 .welcome{display:none;padding:25px 5px 20px;font-size:clamp(19px,4.2vw,34px);color:#ffedb8;font-weight:bold}
 .welcome small{display:block;margin-top:15px;font-size:clamp(12px,2.5vw,18px);font-weight:normal}
-.santa-flight{position:absolute;z-index:3;top:7px;left:-340px;width:320px;height:auto;pointer-events:none;opacity:0;filter:drop-shadow(0 2px 4px #00150b);animation:santaFlight 38s linear infinite;will-change:transform}
+.santa-flight{position:absolute;z-index:1;top:7px;left:-340px;width:320px;height:auto;pointer-events:none;opacity:0;filter:drop-shadow(0 2px 4px #00150b);animation:santaFlight 38s linear infinite;will-change:transform}
 .santa-flight img{display:block;width:100%;height:auto;animation:santaFloat 2.6s ease-in-out infinite alternate}
 @keyframes santaFloat{from{transform:translateY(0)}to{transform:translateY(-4px)}}
 @keyframes santaFlight{0%,6%{transform:translateX(0);opacity:0}10%{opacity:.96}88%{opacity:.96}96%,100%{transform:translateX(calc(100vw + 430px));opacity:0}}
@@ -38,7 +38,10 @@ html,body{margin:0;background:#05261d;font-family:Georgia,'Times New Roman',seri
 .note{line-height:1.4}
 .santa-flight{top:10px;width:215px;left:-235px}}
 @media(prefers-reduced-motion:reduce){.flake,.santa-flight{display:none}}
-
+.heading {
+    position: relative;
+    z-index: 2;
+}
 </style>
 </head>
 <body>
